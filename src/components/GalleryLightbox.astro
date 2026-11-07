@@ -1,0 +1,164 @@
+
+<div
+  id="gallery-lightbox"
+  class="lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Image gallery"
+  aria-hidden="true"
+>
+  <button class="close" aria-label="Close image">×</button>
+  <button class="previous" aria-label="Previous image">‹</button>
+
+  <figure>
+    <img id="lightbox-image" src="" alt="" />
+    <figcaption>
+      <h2 id="lightbox-title"></h2>
+      <p id="lightbox-date"></p>
+    </figcaption>
+  </figure>
+
+  <button class="next" aria-label="Next image">›</button>
+</div>
+
+<script>
+  const lightbox = document.querySelector<HTMLElement>('#gallery-lightbox');
+  const image = document.querySelector<HTMLImageElement>('#lightbox-image');
+  const title = document.querySelector<HTMLElement>('#lightbox-title');
+  const date = document.querySelector<HTMLElement>('#lightbox-date');
+
+  let currentIndex = 0;
+  let items: HTMLElement[] = [];
+  let previousFocus: HTMLElement | null = null;
+
+  function showImage(index: number) {
+    if (!image || !title || !date || !items.length) return;
+
+    currentIndex = (index + items.length) % items.length;
+    const item = items[currentIndex];
+
+    image.src = item.dataset.image || '';
+    image.alt = item.dataset.title || '';
+    title.textContent = item.dataset.title || '';
+    date.textContent = item.dataset.date || '';
+  }
+
+  function openLightbox(index: number) {
+    if (!lightbox) return;
+
+    previousFocus = document.activeElement as HTMLElement;
+    showImage(index);
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    lightbox.querySelector<HTMLButtonElement>('.close')?.focus();
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    previousFocus?.focus();
+  }
+
+  items = [...document.querySelectorAll<HTMLElement>('.gallery-item')];
+
+  items.forEach((item, index) => {
+    item.addEventListener('click', () => openLightbox(index));
+  });
+
+  lightbox?.querySelector('.close')?.addEventListener('click', closeLightbox);
+  lightbox?.querySelector('.previous')?.addEventListener('click', () => showImage(currentIndex - 1));
+  lightbox?.querySelector('.next')?.addEventListener('click', () => showImage(currentIndex + 1));
+
+  document.addEventListener('keydown', (event) => {
+    if (!lightbox?.classList.contains('active')) return;
+
+    if (event.key === 'Escape') closeLightbox();
+    if (event.key === 'ArrowLeft') showImage(currentIndex - 1);
+    if (event.key === 'ArrowRight') showImage(currentIndex + 1);
+  });
+</script>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 24px;
+    background: var(--background);
+    color: var(--text);
+  }
+
+  .lightbox.active {
+    display: flex;
+  }
+
+  figure {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+  }
+
+  figure img {
+    display: block;
+    max-width: 100%;
+    max-height: 75vh;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    object-fit: contain;
+  }
+
+  figcaption {
+    margin-top: 16px;
+  }
+
+  figcaption h2 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  figcaption p {
+    margin: 6px 0 0;
+    font-size: 0.9rem;
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 36px;
+    padding: 12px;
+  }
+
+  button:hover {
+    color: var(--accent);
+  }
+
+  .close {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .lightbox {
+      padding: 12px;
+      gap: 0;
+    }
+
+    button {
+      font-size: 28px;
+      padding: 6px;
+    }
+  }
+</style>

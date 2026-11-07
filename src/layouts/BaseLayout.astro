@@ -1,19 +1,31 @@
 
 ---
-import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
-const { title = "My Digital Garden" } = Astro.props;
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+const { title = 'My Digital Garden' } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#244A38" />
     <title>{title}</title>
+
+    <script is:inline>
+      const savedTheme = localStorage.getItem('theme');
+      const theme = savedTheme === 'light' ? 'light' : 'dark';
+
+      document.documentElement.dataset.theme = theme;
+    </script>
   </head>
+
   <body>
-      <Navbar />
+    <Navbar />
     <slot />
+    <Footer />
   </body>
 </html>

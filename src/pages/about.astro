@@ -4,7 +4,83 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="About | My Digital Garden">
-  <main>
-    <h1>About</h1>
+  <main class="about">
+    <div class="about-image">
+      <img src="/about.jpg" alt="Portrait" />
+    </div>
+
+    <section class="about-content">
+      <h1>About</h1>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur
+        adipiscing elit. Sed do eiusmod tempor
+        incididunt ut labore et dolore magna aliqua.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur
+        adipiscing elit. Ut enim ad minim veniam.
+      </p>
+
+      <div class="links">
+        <a href="mailto:YOUR_EMAIL">Email ↗</a>
+        <a href="https://github.com/YOUR_USERNAME"
+           target="_blank"
+           rel="noopener noreferrer">
+          GitHub ↗
+        </a>
+      </div>
+    </section>
   </main>
 </BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8%;
+    align-items: center;
+    padding-top: 70px;
+  }
+
+  .about-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    margin-bottom: 30px;
+  }
+
+  p {
+    line-height: 1.8;
+    max-width: 500px;
+  }
+
+  .links {
+    display: flex;
+    gap: 30px;
+    margin-top: 35px;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .about {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      padding-top: 30px;
+    }
+  }
+</style>

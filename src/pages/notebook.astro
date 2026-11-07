@@ -1,10 +1,122 @@
 
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+
+const reader = createReader('.', keystaticConfig);
+
+const entries = (await reader.collections.notebook.all())
+  .map(({ entry }) => ({
+    title: entry.title,
+    image: entry.image,
+    description: entry.description,
+    content: entry.content,
+    order: entry.order,
+  }))
+  .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
 <BaseLayout title="Notebook | My Digital Garden">
   <main>
     <h1>Notebook</h1>
+
+    <div class="notebook-grid">
+      {entries.map((entry) => (
+        <details class="card">
+          <summary>
+            <img src={entry.image} alt="" loading="lazy" />
+            <div class="card-info">
+              <h2>{entry.title}</h2>
+              <p>{entry.description}</p>
+              <span class="expand-label">Explore +</span>
+            </div>
+          </summary>
+
+          <div class="expanded-content">
+            <p>{entry.content}</p>
+          </div>
+        </details>
+      ))}
+    </div>
   </main>
 </BaseLayout>
+
+<style>
+  h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    margin-bottom: 40px;
+  }
+
+  .notebook-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+
+  .card {
+    border: 1px solid var(--text);
+    min-width: 0;
+  }
+
+  summary {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-info {
+    padding: 20px;
+  }
+
+  h2 {
+    font-family: Georgia, serif;
+    font-size: 1.4rem;
+    margin: 0 0 12px;
+  }
+
+  p {
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  .expand-label {
+    display: inline-block;
+    margin-top: 14px;
+    color: var(--accent);
+    font-size: 0.85rem;
+  }
+
+  .expanded-content {
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--text);
+  }
+
+  .card[open] .expand-label {
+    color: var(--text);
+  }
+
+  @media (max-width: 900px) {
+    .notebook-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .notebook-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

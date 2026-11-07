@@ -1,10 +1,122 @@
 
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import GalleryLightbox from '../components/GalleryLightbox.astro';
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+
+const reader = createReader('.', keystaticConfig);
+
+const photos = (await reader.collections.film.all())
+  .map(({ entry }) => ({
+    image: entry.image,
+    title: entry.title,
+    date: entry.date,
+    order: entry.order,
+  }))
+  .filter((photo) => Boolean(photo.image))
+  .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
 <BaseLayout title="Film | My Digital Garden">
   <main>
-    <h1>Favorite Film Shots</h1>
+    <h1>Film</h1>
+
+    <div class="gallery">
+      {photos.map((photo) => (
+        <div
+          class="gallery-item"
+          data-image={photo.image}
+          data-title={photo.title}
+          data-date={photo.date}
+        >
+          <img
+            src={photo.image}
+            alt={photo.title}
+            loading="lazy"
+          />
+
+          <div class="overlay">
+            <h2>{photo.title}</h2>
+            <p>{photo.date}</p>
+          </div>
+        </div>
+      ))}
+    </div>
   </main>
+
+  <GalleryLightbox />
 </BaseLayout>
+
+<style>
+  h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    margin-bottom: 40px;
+  }
+
+  .gallery {
+    columns: 3;
+    column-gap: 20px;
+  }
+
+  .gallery-item {
+    position: relative;
+    break-inside: avoid;
+    margin-bottom: 20px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .gallery-item:hover .overlay,
+  .gallery-item:focus-within .overlay {
+    opacity: 1;
+  }
+
+  .overlay h2 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  .overlay p {
+    margin: 8px 0 0;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 900px) {
+    .gallery {
+      columns: 2;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .gallery {
+      columns: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .overlay {
+      transition: none;
+    }
+  }
+</style>
