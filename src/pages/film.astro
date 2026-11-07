@@ -15,6 +15,10 @@ const files = import.meta.glob('../content/film/*.yaml', {
 const photos = Object.values(files)
   .map((file) => parse(file as string))
   .filter((photo) => Boolean(photo.image))
+.map((photo) => ({
+  ...photo,
+  image: photo.image.replace(/\.jpg$/i, '.webp'),
+}))
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
