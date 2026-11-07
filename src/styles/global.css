@@ -1,0 +1,33 @@
+
+:root {
+  --forest-green: #244A38;
+  --burnt-orange: #BC5B32;
+  --vintage-cream: #F1E5CF;
+
+  /* Light mode */
+  --background: var(--vintage-cream);
+  --text: var(--forest-green);
+  --accent: var(--burnt-orange);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --background: var(--forest-green);
+  --text: var(--vintage-cream);
+  --accent: var(--burnt-orange);
+}

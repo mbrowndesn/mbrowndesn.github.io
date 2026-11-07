@@ -1,0 +1,19 @@
+
+<button id="theme-toggle" type="button" aria-label="Toggle dark mode">
+  <span id="theme-icon">☾</span>
+</button>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('#theme-toggle');
+  const icon = document.querySelector<HTMLElement>('#theme-icon');
+
+  function updateTheme() {
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    document.documentElement.dataset.theme = isDark ? 'light' : 'dark';
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+
+    if (icon) icon.textContent = isDark ? '☾' : '☀';
+  }
+
+  button?.addEventListener('click', updateTheme);
+</script>
