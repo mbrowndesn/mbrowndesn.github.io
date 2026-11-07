@@ -4,21 +4,20 @@ export const prerender = true;
 
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryLightbox from '../components/GalleryLightbox.astro';
-import { createReader } from '@keystatic/core/reader';
-import keystaticConfig from '../../keystatic.config';
+import { parse } from 'yaml';
 
-const reader = createReader('.', keystaticConfig);
+const files = import.meta.glob('../content/film/*.yaml', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+});
 
-const photos = (await reader.collections.film.all())
-  .map(({ entry }) => ({
-    image: entry.image,
-    title: entry.title,
-    date: entry.date,
-    order: entry.order,
-  }))
+const photos = Object.values(files)
+  .map((file) => parse(file as string))
   .filter((photo) => Boolean(photo.image))
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
+
 
 <BaseLayout title="Film | My Digital Garden">
   <main>
