@@ -1,0 +1,66 @@
+
+---
+export const prerender = true;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Still Growing | My Digital Garden</title>
+  </head>
+
+  <body>
+    <main>
+      <p class="eyebrow">MY DIGITAL GARDEN</p>
+      <h1>Still Growing.</h1>
+      <p class="description">
+        This little corner of the internet is a work in progress.
+        Check back soon.
+      </p>
+      <div class="line"></div>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #244A38;
+    color: #F1E5CF;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+
+  main {
+    padding: 32px;
+    max-width: 600px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.25em;
+  }
+
+  h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: normal;
+    margin: 24px 0;
+  }
+
+  .description {
+    line-height: 1.7;
+    opacity: 0.8;
+  }
+
+  .line {
+    width: 60px;
+    height: 2px;
+    background: #BC5B32;
+    margin: 32px auto 0;
+  }
+</style>
