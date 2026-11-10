@@ -1,66 +1,47 @@
 
 ---
-export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { home } from '../data/site.js';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Still Growing | My Digital Garden</title>
-  </head>
+<BaseLayout title={home.pageTitle}>
+  <main class="mx-auto max-w-[1400px] px-6 py-[30px] md:px-[5%]">
+    <section class="grid min-h-[70vh] grid-cols-1 items-center gap-10 md:grid-cols-[1fr_1.2fr] md:gap-[5%]">
+      <div class="animate-[fadeUp_0.8s_ease_both] motion-reduce:animate-none">
+        <p class="text-xs tracking-[0.2em] text-[var(--accent)]">
+          {home.eyebrow}
+        </p>
 
-  <body>
-    <main>
-      <p class="eyebrow">MY DIGITAL GARDEN</p>
-      <h1>Still Growing.</h1>
-      <p class="description">
-        This little corner of the internet is a work in progress.
-        Check back soon.
-      </p>
-      <div class="line"></div>
-    </main>
-  </body>
-</html>
+        <h1 class="my-6 font-serif text-[clamp(3.5rem,7vw,7rem)] leading-none tracking-[-0.05em]">
+          {home.name}<span class="text-[var(--accent)]">.</span>
+        </h1>
+
+        <p class="text-base leading-[1.7]">
+          {home.subtitle}
+        </p>
+      </div>
+
+      <div class="w-full animate-[fadeUp_1s_ease_0.15s_both] motion-reduce:animate-none">
+        <img
+          src={home.image}
+          alt={home.imageAlt}
+          fetchpriority="high"
+          class="block h-auto max-h-[70vh] w-full object-contain"
+        />
+      </div>
+    </section>
+  </main>
+</BaseLayout>
 
 <style>
-  body {
-    margin: 0;
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    background: #244A38;
-    color: #F1E5CF;
-    font-family: Arial, sans-serif;
-    text-align: center;
-  }
-
-  main {
-    padding: 32px;
-    max-width: 600px;
-  }
-
-  .eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.25em;
-  }
-
-  h1 {
-    font-family: Georgia, serif;
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: normal;
-    margin: 24px 0;
-  }
-
-  .description {
-    line-height: 1.7;
-    opacity: 0.8;
-  }
-
-  .line {
-    width: 60px;
-    height: 2px;
-    background: #BC5B32;
-    margin: 32px auto 0;
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>

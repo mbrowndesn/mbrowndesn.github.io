@@ -1,88 +1,42 @@
 
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { about } from '../data/site.js';
 ---
 
-<BaseLayout title="About | My Digital Garden">
-  <main class="about">
-    <div class="about-image">
-      <img src="/about.jpg" alt="Portrait" />
+<BaseLayout title={about.pageTitle}>
+  <main class="grid grid-cols-1 items-center gap-[30px] pt-[30px] md:grid-cols-2 md:gap-[8%] md:pt-[70px]">
+    <div>
+      <img
+        src={about.image}
+        alt={about.imageAlt}
+        class="block h-[600px] w-full object-cover object-bottom"
+      />
     </div>
 
-    <section class="about-content">
-      <h1>About</h1>
+    <section>
+      <h1 class="mb-[30px] font-serif text-[clamp(3rem,6vw,5rem)]">
+        {about.heading}
+      </h1>
 
-      <p>
-        Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua.
-      </p>
+      {about.paragraphs.map((paragraph) => (
+        <p class="max-w-[500px] leading-[1.8]">
+          {paragraph}
+        </p>
+      ))}
 
-      <p>
-        Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Ut enim ad minim veniam.
-      </p>
-
-      <div class="links">
-        <a href="mailto:YOUR_EMAIL">Email ↗</a>
-        <a href="https://github.com/YOUR_USERNAME"
-           target="_blank"
-           rel="noopener noreferrer">
-          GitHub ↗
-        </a>
+      <div class="mt-[35px] flex gap-[30px]">
+        {about.links.map((link) => (
+          <a
+            href={link.href}
+            target={link.href.startsWith('http') ? '_blank' : undefined}
+            rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+            class="text-[var(--accent)] no-underline hover:underline"
+          >
+            {link.label}
+          </a>
+        ))}
       </div>
     </section>
   </main>
 </BaseLayout>
-
-<style>
-  .about {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8%;
-    align-items: center;
-    padding-top: 70px;
-  }
-
-  .about-image img {
-    width: 100%;
-    height: 600px;
-    display: block;
-    object-fit: cover;
-    object-position: bottom;
-  }
-
-  h1 {
-    font-family: Georgia, serif;
-    font-size: clamp(3rem, 6vw, 5rem);
-    margin-bottom: 30px;
-  }
-
-  p {
-    line-height: 1.8;
-    max-width: 500px;
-  }
-
-  .links {
-    display: flex;
-    gap: 30px;
-    margin-top: 35px;
-  }
-
-  a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  @media (max-width: 768px) {
-    .about {
-      grid-template-columns: 1fr;
-      gap: 30px;
-      padding-top: 30px;
-    }
-  }
-</style>

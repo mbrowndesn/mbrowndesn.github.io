@@ -1,24 +1,46 @@
 
 <div
   id="gallery-lightbox"
-  class="lightbox"
+  class="lightbox fixed inset-0 z-[1000] hidden items-center justify-between gap-3 bg-[var(--background)] p-6 text-[var(--text)] max-[600px]:gap-0 max-[600px]:p-3 [&.active]:flex"
   role="dialog"
   aria-modal="true"
   aria-label="Image gallery"
   aria-hidden="true"
 >
-  <button class="close" aria-label="Close image">×</button>
-  <button class="previous" aria-label="Previous image">‹</button>
 
-  <figure>
-    <img id="lightbox-image" src="" alt="" />
-    <figcaption>
-      <h2 id="lightbox-title"></h2>
-      <p id="lightbox-date"></p>
-    </figcaption>
-  </figure>
+<button
+  class="close absolute right-5 top-3 cursor-pointer border-0 bg-transparent p-3 text-[36px] text-[var(--text)] hover:text-[var(--accent)] max-[600px]:p-1.5 max-[600px]:text-[28px]"
+  aria-label="Close image"
+>×</button>
 
-  <button class="next" aria-label="Next image">›</button>
+<button
+  class="previous cursor-pointer border-0 bg-transparent p-3 text-[36px] text-[var(--text)] hover:text-[var(--accent)] max-[600px]:p-1.5 max-[600px]:text-[28px]"
+  aria-label="Previous image"
+>‹</button>
+
+
+
+<figure class="m-0 min-w-0 flex-1 text-center">
+  <img
+    id="lightbox-image"
+    src=""
+    alt=""
+    class="mx-auto block h-auto max-h-[75vh] w-auto max-w-full object-contain"
+  />
+
+  <figcaption class="mt-4">
+    <h2 id="lightbox-title" class="m-0 text-[1.1rem]"></h2>
+    <p id="lightbox-date" class="mt-1.5 text-[0.9rem]"></p>
+  </figcaption>
+</figure>
+
+
+
+<button
+  class="next cursor-pointer border-0 bg-transparent p-3 text-[36px] text-[var(--text)] hover:text-[var(--accent)] max-[600px]:p-1.5 max-[600px]:text-[28px]"
+  aria-label="Next image"
+>›</button>
+
 </div>
 
 <script>
@@ -81,84 +103,3 @@
     if (event.key === 'ArrowRight') showImage(currentIndex + 1);
   });
 </script>
-
-<style>
-  .lightbox {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 24px;
-    background: var(--background);
-    color: var(--text);
-  }
-
-  .lightbox.active {
-    display: flex;
-  }
-
-  figure {
-    margin: 0;
-    flex: 1;
-    min-width: 0;
-    text-align: center;
-  }
-
-  figure img {
-    display: block;
-    max-width: 100%;
-    max-height: 75vh;
-    width: auto;
-    height: auto;
-    margin: 0 auto;
-    object-fit: contain;
-  }
-
-  figcaption {
-    margin-top: 16px;
-  }
-
-  figcaption h2 {
-    margin: 0;
-    font-size: 1.1rem;
-  }
-
-  figcaption p {
-    margin: 6px 0 0;
-    font-size: 0.9rem;
-  }
-
-  button {
-    background: none;
-    border: none;
-    color: var(--text);
-    cursor: pointer;
-    font-size: 36px;
-    padding: 12px;
-  }
-
-  button:hover {
-    color: var(--accent);
-  }
-
-  .close {
-    position: absolute;
-    top: 12px;
-    right: 20px;
-  }
-
-  @media (max-width: 600px) {
-    .lightbox {
-      padding: 12px;
-      gap: 0;
-    }
-
-    button {
-      font-size: 28px;
-      padding: 6px;
-    }
-  }
-</style>

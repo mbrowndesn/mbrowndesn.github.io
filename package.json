@@ -19,11 +19,13 @@
     "@astrojs/react": "^7.1.4",
     "@keystatic/astro": "^6.0.0",
     "@keystatic/core": "^0.6.9",
+    "@tailwindcss/vite": "^4.3.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "astro": "^7.4.7",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "tailwindcss": "^4.3.5",
     "wrangler": "^4.158.0",
     "yaml": "^2.9.1"
   },

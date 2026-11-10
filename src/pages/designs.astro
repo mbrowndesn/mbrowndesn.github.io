@@ -4,6 +4,7 @@ export const prerender = true;
 
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryLightbox from '../components/GalleryLightbox.astro';
+import { designsPage } from '../data/site.js';
 import { parse } from 'yaml';
 
 const files = import.meta.glob('../content/designs/*.yaml', {
@@ -18,97 +19,41 @@ const designs = Object.values(files)
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
-
-<BaseLayout title="Designs | My Digital Garden">
+<BaseLayout title={designsPage.pageTitle}>
   <main>
-    <h1>Designs</h1>
+    <h1 class="mb-10 font-serif text-[clamp(3rem,6vw,5rem)]">
+      {designsPage.heading}
+    </h1>
 
-    <div class="gallery">
+    <div class="columns-1 gap-5 min-[601px]:columns-2 min-[901px]:columns-3">
       {designs.map((design) => (
         <div
-  class="gallery-item"
-  data-image={design.image}
-  data-title={design.title}
-  data-date={design.date}
->
+          class="gallery-item group relative mb-5 cursor-pointer break-inside-avoid overflow-hidden"
+          data-image={design.image}
+          data-title={design.title}
+          data-date={design.date}
+        >
           <img
             src={design.image}
             alt={design.title}
             loading="lazy"
+            class="block h-auto w-full"
           />
-          <div class="overlay">
-            <h2>{design.title}</h2>
-            <p>{design.date}</p>
+
+          <div
+            class="absolute inset-0 flex flex-col items-center justify-center bg-black/55 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          >
+            <h2 class="m-0 text-[1.2rem]">
+              {design.title}
+            </h2>
+            <p class="mt-2 text-[0.85rem]">
+              {design.date}
+            </p>
           </div>
         </div>
       ))}
     </div>
   </main>
+
   <GalleryLightbox />
 </BaseLayout>
-
-<style>
-  h1 {
-    font-family: Georgia, serif;
-    font-size: clamp(3rem, 6vw, 5rem);
-    margin-bottom: 40px;
-  }
-
-  .gallery {
-    columns: 3;
-    column-gap: 20px;
-  }
-
-  .gallery-item {
-    position: relative;
-    break-inside: avoid;
-    margin-bottom: 20px;
-    overflow: hidden;
-    cursor: pointer;
-  }
-
-  img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .gallery-item:hover .overlay {
-    opacity: 1;
-  }
-
-  .overlay h2 {
-    margin: 0;
-    font-size: 1.2rem;
-  }
-
-  .overlay p {
-    margin: 8px 0 0;
-    font-size: 0.85rem;
-  }
-
-  @media (max-width: 900px) {
-    .gallery {
-      columns: 2;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .gallery {
-      columns: 1;
-    }
-  }
-</style>

@@ -3,8 +3,9 @@
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import { site } from '../data/site.js';
 
-const { title = 'My Digital Garden' } = Astro.props;
+const { title = site.title } = Astro.props;
 ---
 
 <!doctype html>
