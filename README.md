@@ -8,5 +8,5 @@ Cloudflare automatically publishes changes to my personal domain.
 
 ## Work to add:
 
-[]404 Page
-[]Redesign home page
+[ ]404 Page
+[ ]Redesign home page
