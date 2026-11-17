@@ -12,3 +12,5 @@ Cloudflare automatically publishes changes to my personal domain.
 - [ ] Redesign home page
 - [ ] Add background texture
 - [ ] Redesign nav bar
+- [ ] Bio section
+- [ ] Image of myself
