@@ -7,6 +7,17 @@ storage: {
   repo: 'mbrowndesn/mbrowndesn.github.io',
 },
 
+//export default config({
+  // Local files while running `astro dev`; Keystatic Cloud on the deployed site.
+  //storage: import.meta.env.DEV ? { kind: 'local' } : { kind: 'cloud' },
+  //cloud: {
+    // TODO: replace with the identifier from your Keystatic Cloud project's settings page.
+   // project: 'macylynn-com/mbrowndesn-github-io',
+ // },
+ // ui: {
+ //   brand: { name: 'Photo Gallery' },
+//  },
+
   collections: {
     designs: collection({
       label: 'Designs',
